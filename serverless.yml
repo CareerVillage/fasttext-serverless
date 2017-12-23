@@ -1,0 +1,16 @@
+service: lambda
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: python2.7
+
+functions:
+  tagRecommendations:
+    handler: handler.endpoint
+    events:
+      - http:
+          path: recommendations
+          method: post
+          cors: true
