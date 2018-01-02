@@ -18,7 +18,7 @@ $ git clone https://github.com/CareerVillage/fasttext-serverless/
 ```
 
 **Step 2: Install and configure Serverless**
-Serverless is a node.js tool that will allow you to easily deploy this project to a service such as AWS Lambda. [The docs for installing Serverledd](https://serverless.com/framework/docs/providers/aws/guide/installation/) and [the docs for configuring it with credentials for your AWS account](https://serverless.com/framework/docs/providers/aws/guide/installation/) are excellent in case you run into trouble. For example, to install Serverless and configure it for AWS:
+Serverless is a node.js tool that will allow you to easily deploy this project to a service such as AWS Lambda. [The docs for installing Serverless](https://serverless.com/framework/docs/providers/aws/guide/installation/) and [the docs for configuring it with credentials for your AWS account](https://serverless.com/framework/docs/providers/aws/guide/installation/) are excellent in case you run into trouble. For example, to install Serverless and configure it for AWS:
 
 ```bash
 $ npm install -g serverless
