@@ -17,26 +17,23 @@ A simple HTTP POST endpoint that returns hashtag recommendations. This function 
 $ git clone https://github.com/CareerVillage/fasttext-serverless/
 ```
 
-**Step 2: Install and configure Serverless**
-Serverless is a node.js tool that will allow you to easily deploy this project to a service such as AWS Lambda. [The docs for installing Serverless](https://serverless.com/framework/docs/providers/aws/guide/installation/) and [the docs for configuring it with credentials for your AWS account](https://serverless.com/framework/docs/providers/aws/guide/installation/) are excellent in case you run into trouble. For example, to install Serverless and configure it for AWS:
+**Step 2: Install and configure [Serverless](https://serverless.com/)**  
+Refer to the Serverless docs [[1](https://serverless.com/framework/docs/providers/aws/guide/installation/), [2](https://serverless.com/framework/docs/providers/aws/guide/installation/)] for help.
 
 ```bash
 $ npm install -g serverless
 $ serverless config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secret wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 ```
 
-**Step 3: Add your pre-trained classification model**
-Train a supervised fastText model and add that model to the `trained_models/` folder in this project folder. For more information about how to train a fastText model check out [the fastText docs](https://fasttext.cc/docs/en/cheatsheet.html). Here's a hint:
+**Step 3: Add your pre-trained classification model**  
+Refer to the [fastText docs](https://fasttext.cc/docs/en/cheatsheet.html) for help. Don't forget to save it in this project as `/trained_models/model_standard.bin`. Hint:
 
 ```bash
 $ ./fasttext supervised -input train.txt -output model_standard
 $ mv model_standard.bin /path/to/fasttext-serverless/trained_models/model_standard.bin
 ```
-_Note 1: If you don't use model_standard as your model name, you'll need to change `handler.py` to point to the filename you used_
-_Note 2: There are upper limits to how large a serverless function can be on AWS Lambda. If your fasttext model is very big, you might get errors while trying to deploy. In that case, consider using fastText's `quantize` to reduce the memory footprint of your model._
 
-
-**Step 4: Deploy to AWS**
+**Step 4: Deploy to AWS**  
 Assuming you have properly configured Serverless to access AWS, to deploy the endpoint (with verbose logs) simply run
 
 ```bash
@@ -79,7 +76,7 @@ The expected result should be similar to:
 ```bash
 {"hashtags_already_used": "#doctor #healthcare #medicine", "hashtags_recommended": "('__label__doctor 0.662109 __label__pediatrician 0.0585938 __label__medicine 0.015625 __label__pre-med 0.0136719 __label__surgeon 0.0136719\\n', '')"}
 ```
-
+Success!
 
 ## Updating fastText assets
 
