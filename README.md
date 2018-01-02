@@ -9,7 +9,26 @@ Serverless hashtag recommendations using fastText and Python with AWS Lambda.
 A simple HTTP POST endpoint that returns hashtag recommendations. This function requires a pre-trained fastText model. When you send a properly formatted string in the body of a POST to this endpoint, it will reply with JSON containing up to 5 topic recommendations that it believes match that string. While the internal function is named `tagRecommendations` the HTTP endpoint is exposed as `recommendations`.
 
 
-## Deploying with Serverless
+## Configuration
+
+**Step 1:** Clone this repo to your local machine. 
+
+```bash
+git clone https://github.com/CareerVillage/fasttext-serverless/
+```
+
+**Step 2:** Install and configure Serverless, a node.js tool that will allow you to easily deploy this project to a service such as AWS Lambda. [The docs for installing Serverledd](https://serverless.com/framework/docs/providers/aws/guide/installation/) and [the docs for configuring it with credentials for your AWS account](https://serverless.com/framework/docs/providers/aws/guide/installation/) are excellent in case you run into trouble. For example, to install Serverless and configure it for AWS:
+
+```bash
+npm install -g serverless
+serverless config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secret wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
+**Step 3:** Train a supervised fastText model and add that model to the `trained_models/` folder in this project folder. For more information about how to train a fastText model check out [the fastText docs](https://fasttext.cc/docs/en/cheatsheet.html
+
+
+
+## Deploying
 
 Assuming you have properly configured Serverless to access AWS, to deploy the endpoint (with verbose logs) simply run
 
