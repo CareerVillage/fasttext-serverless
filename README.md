@@ -26,15 +26,16 @@ $ serverless config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secr
 ```
 
 **Step 3: Add your pre-trained classification model**  
-Refer to the [fastText docs](https://fasttext.cc/docs/en/cheatsheet.html) for help. Don't forget to save it in this project as `/trained_models/model_standard.bin`. Hint:
+Save your pre-trained model file in this project as `/trained_models/model_standard.bin`.
 
 ```bash
-$ ./fasttext supervised -input train.txt -output model_standard
 $ mv model_standard.bin /path/to/fasttext-serverless/trained_models/model_standard.bin
 ```
+If you have not yet trained a model, refer to the [fastText docs](https://fasttext.cc/docs/en/cheatsheet.html) for help. You'll be looking to use the `fasttext supervised` command to generate the model.
+
 
 **Step 4: Deploy to AWS**  
-Assuming you have properly configured Serverless to access AWS, to deploy the endpoint (with verbose logs) simply run
+Assuming you have properly configured Serverless to access AWS, to deploy the endpoint (with verbose logs) simply run `serverless deploy`. You should see something like this (I added the -v "verbose" flag to get more logging):
 
 ```bash
 $ serverless deploy -v
@@ -81,7 +82,7 @@ Success!
 ## Updating fastText assets
 
 ### Updating the fastText binary
-The fastText binary used here was built using:
+It's important to make the fastTExt binary using the same environment as the one your serverless function will run in. I followed the approach used [here](https://blog.codefor.cash/2017/10/19/an-aws-lambda-serverless-implementation-of-facebook-fasttext-text-classification/) to set up an EC2 instance, import everything needed, and then make and download the binary. The fastText binary included in this project was built using fastText version 0.1.0 with:
 
 ```bash
 wget https://github.com/facebookresearch/fastText/archive/v0.1.0.zip
@@ -90,7 +91,7 @@ $ cd fastText-0.1.0
 $ make
 ```
 
-To update the fastText binary ssh into a running EC2 instance (which is running an Amazon Linux AMI), follow the instructions at https://github.com/facebookresearch/fastText to update to the latest version of fastText so you can `make` the binary, and then copy (`scp`) the binary file into the folder for this repo.
+If you would like to update the fastText binary, you should follow a similar set of steps: ssh into a running EC2 instance (which is running an Amazon Linux AMI), follow the instructions at https://github.com/facebookresearch/fastText to update to the latest version of fastText so you can `make` the binary, and then copy (`scp`) the binary file into the folder for this repo.
 
 ### Updating the classification model file
 To update the model_standard.bin file, you must have training data properly formated for fastText training (e.g., `training_set.txt` cleaned in the same way as on the machine doing prediction. For example, for CareerVillage we remove all punctuation, remove all HTML tags, and lowercase all characters) and for optimal results, you should also have a local copy of the wikipedia-based english language word vectors file provided by fastText (`wiki.en.vec`). Training is completed with the following parameters: `./fasttext supervised -input ./data/questions_set_for_training.txt -output model -pretrainedVectors ./data/wiki.en.vec -verbose 2 -lr 1.0 -epoch 20 -dim 300 -wordNgrams 2 -neg 10 -bucket 10000`. If you use the pretrained vectors, your model will almost certainly be too large for AWS Lambda, so you will need to use fastText's `quantize` to reduce the filesize. More information is available at https://github.com/facebookresearch/fastText#text-classification 
